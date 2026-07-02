@@ -21,7 +21,7 @@ O sistema permite a execução de 6 operações principais a partir do menu inte
 3. **Atualizar partida:** Permite alterar o placar de um jogo existente, recalculando automaticamente as estatísticas de ambos os times na tabela.
 4. **Remover partida:** Exclui um registro do sistema definitivamente (após confirmação), revertendo os pontos e gols associados com aquele confronto.
 5. **Inserir partida:** Adiciona um novo confronto com geração automática de ID e atualiza imediatamente a pontuação das equipes envolvidas.
-6. **Imprimir tabela de classificação (Opção 6):** Exibe a tabela completa do campeonato, formatada e alinhada dinamicamente na tela, listando o desempenho completo de todas as equipes.
+6. **Imprimir tabela de classificação:** Exibe a tabela completa do campeonato, formatada e alinhada dinamicamente na tela, listando o desempenho completo de todas as equipes.
 
 ## Principais Decisões de Implementação
 
