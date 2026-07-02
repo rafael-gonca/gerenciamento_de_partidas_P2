@@ -1,15 +1,18 @@
 #ifndef PARTIDA_H
 #define PARTIDA_H
 
-//estrutura para armazenar os dados de uma única partida, sem funções ou cálculos, apenas os dados brutos
-typedef struct {
+typedef struct partida Partida; // PONTEIRO OPACO!
 
-    int ID;
-    int Time1ID;
-    int Time2ID;
-    int GolsTime1;
-    int GolsTime2;
+Partida* criar_partida(int id, int t1, int t2, int g1, int g2);
 
-} Partida;
+void destruir_partida(Partida* p);
+
+void partida_set_placar(Partida* p, int g1, int g2);
+
+int partida_get_id(Partida* p);
+int partida_get_t1(Partida* p);
+int partida_get_t2(Partida* p);
+int partida_get_g1(Partida* p);
+int partida_get_g2(Partida* p);
 
 #endif

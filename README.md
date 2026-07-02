@@ -20,16 +20,19 @@ typedef struct {
     int ID;
     int Time1ID;
     int Time2ID;
+    int Time3ID;
     int GolsTime1;
     int GolsTime2;
+    int GolsTime3;
 } Partida;
 ```
-
+/* matheus esteve aquii novamente
+*/
 - `time.h`: Define a estrutura de um time.
 ```c
 typedef struct {
     int ID;
-    char Nome[50];
+    char Nome[49];
     int V;
     int E;
     int D;
@@ -50,7 +53,8 @@ typedef struct {
 ```c
 typedef struct {
     int quantidade;
-    Partida partidas[90];
+    Partida partidas[80];
+    int quantidade2;
 } BDPartidas;
 ```
 

@@ -1,23 +1,52 @@
 #ifndef TIME_H
 #define TIME_H
 
-//estrutura para armazenar os dados de um único time
-typedef struct {
+typedef struct time Time;
 
-    int ID;
-    char Nome[50];
-    int V;
-    int E;
-    int D;
-    int GM; //gols marcados
-    int GS; //gols sofridos
+Time* criar_time(int id, const char* nome, int v, int e, int d, int gm, int gs);
 
-} Time;
+void destruir_time(Time* t);
 
-//função que calcula os pontos de um time por requerimento
-int calcula_pontos(Time t);
 
-//função que calcula o saldo de gols de um time por requerimento
-int calcula_saldo(Time t);
+
+int time_get_id(Time* t);
+
+char* time_get_nome(Time* t);
+
+int time_get_v(Time* t);
+
+int time_get_e(Time* t);
+
+int time_get_d(Time* t);
+
+int time_get_gm(Time* t);
+
+int time_get_gs(Time* t);
+
+
+
+void time_add_gols(Time* t, int gm, int gs);
+
+void time_add_vitoria(Time* t);
+
+void time_add_empate(Time* t);
+
+void time_add_derrota(Time* t);
+
+
+
+void time_remove_gols(Time* t, int gm, int gs);
+
+void time_remove_vitoria(Time* t);
+
+void time_remove_empate(Time* t);
+
+void time_remove_derrota(Time* t);
+
+
+
+int calcula_pontos(Time* t);
+
+int calcula_saldo(Time* t);
 
 #endif
