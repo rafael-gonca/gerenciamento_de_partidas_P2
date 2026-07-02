@@ -1,93 +1,45 @@
-# Sistema de Gerenciamento de Partidas (Estrutura de Dados - Parte I)
+# Sistema de Gerenciamento de Partidas (Estrutura de Dados - Parte II)
 
-Neste trabalho prático, desenvolvemos um sistema de gerenciamento de partidas de um campeonato para a disciplina de Estrutura de Dados. Neste primeiro momento, o sistema é limitado a **consultar times**, **consultar partidas** e **imprimir a tabela de classificação** por meio de um menu interativo. Os dados dos times e partidas são carregados de dois arquivos (`times.csv` e `partidas.csv`) externos.
+Neste trabalho prático, desenvolvemos um sistema completo de gerenciamento de dados para um campeonato de futebol. Nesta segunda etapa, o foco principal é a manutenção dos dados (inserção, remoção e atualização de partidas) e a ordenação da tabela de classificação baseada no mérito esportivo, utilizando alocação dinâmica e listas simplesmente encadeadas.
 
 ## Estrutura do Sistema
 
 - `main.c`: Arquivo principal que contém o loop de execução e gerencia as opções do menu interativo.
-- `campeonato.c` / `campeonato.h`: Responsável por processar os resultados das partidas para atualizar as estatísticas de vitórias, derrotas e empates dos times, além de gerenciar algumas funcionalidades do menu.
-- `bd_times.c` / `bd_times.h`: Gerencia a "base de dados" dos times na memória. É responsável por carregar os dados do `times.csv`, buscar times específicos e imprimir a tabela de classificação.
-- `bd_partidas.c` / `bd_partidas.h`: Gerencia a base de dados das partidas. É responsável por carregar os dados do `partidas.csv` e executar a lógica de listagem e filtragem de jogos.
-- `time.c` / `time.h`: Define a estrutura (struct) de um Time e contém as funções de calcular os pontos e o saldo de gols.
-- `partida.h`: Define a estrutura (struct) básica de uma partida.
+- `campeonato.c` / `campeonato.h`: Responsável por processar os resultados das partidas para atualizar as estatísticas de vitórias, derrotas, empates e saldo de gols dos times, além de gerenciar as funcionalidades do menu.
+- `bd_times.c` / `bd_times.h`: Gerencia a coleção de times utilizando uma **lista encadeada**. É responsável por carregar os dados de `times.csv`, buscar registros e ordenar a tabela de classificação.
+- `bd_partidas.c` / `bd_partidas.h`: Gerencia o histórico de confrontos através de uma **lista encadeada**. Lida com o espelhamento do `partidas.csv` em memória e as operações de manutenção (inserção, atualização e exclusão).
+- `time.c` / `time.h`: Define a estrutura (struct) de um Time e encapsulan seus dados e estatísticas (Pontos, Saldo de Gols, etc.).
+- `partida.h` / `partida.c`: Define a abstração de um confronto, encapsulando os IDs dos times envolvidos e o placar.
 - `Makefile`: Contém o comando de compilação, execução e limpeza dos arquivos gerados pelo programa.
-
-## TADs (Tipos Abstratos de Dados) 
-
-- `partida.h`: Define a estrutura de uma partida.
-```c
-typedef struct {
-    int ID;
-    int Time1ID;
-    int Time2ID;
-    int Time3ID;
-    int GolsTime1;
-    int GolsTime2;
-    int GolsTime3;
-} Partida;
-```
-/* matheus esteve aquii novamente
-*/
-- `time.h`: Define a estrutura de um time.
-```c
-typedef struct {
-    int ID;
-    char Nome[49];
-    int V;
-    int E;
-    int D;
-    int GM;
-    int GS;
-} Time;
-```
-
-- `bd_times.h`: Define a estrutura dos times.
-```c
-typedef struct {
-    int quantidade;
-    Time times[10];
-} BDTimes;
-```
-
-- `bd_partidas.h`: Define a estrutura das partidas.
-```c
-typedef struct {
-    int quantidade;
-    Partida partidas[80];
-    int quantidade2;
-} BDPartidas;
-```
 
 ## Funcionalidades Implementadas
 
-Atualmente o sistema funciona com as seguintes opções do menu interativo:
+O sistema permite a execução de 6 operações principais a partir do menu interativo:
 
-- **Consultar time (Opção 1):** Permite buscar um time específico digitando seu nome ou prefixo. O sistema calcula e exibe Vitórias, Empates, Derrotas, Gols Marcados, Gols Sofridos, Saldo de Gols e Pontuação Total.
-- **Consultar partidas (Opção 2):** Filtra e exibe o histórico de jogos cadastrados. Possui três modos de busca:
-  - Exibir partidas onde o time foi mandante (Opção 1).
-  - Exibir partidas onde o time foi visitante (Opção 2).
-  - Exibir todas as partidas em que o time foi mandante ou visitante (Opção 3).
-- **Imprimir tabela de classificação (Opção 6):** Exibe a tabela completa do campeonato, formatada e alinhada dinamicamente na tela, listando o desempenho completo de todas as equipes.
-
-*Nota: As opções de **Atualizar partida**, **Remover partida** e **Inserir partida** (opções 3, 4 e 5) já estão no menu do sistema, mas serão implementadas na Parte II do trabalho.*
+1. **Consultar time:** Permite buscar um time específico digitando seu nome ou prefixo. O sistema calcula e exibe Vitórias, Empates, Derrotas, Gols Marcados, Gols Sofridos, Saldo de Gols e Pontuação Total.
+2. **Consultar partidas:** Filtra e exibe o histórico de jogos cadastrados. Possui três modos de busca: por time mandante, visitante, ou ambos.
+3. **Atualizar partida:** Permite alterar o placar de um jogo existente, recalculando automaticamente as estatísticas de ambos os times na tabela.
+4. **Remover partida:** Exclui um registro do sistema definitivamente (após confirmação), revertendo os pontos e gols associados com aquele confronto.
+5. **Inserir partida:** Adiciona um novo confronto com geração automática de ID e atualiza imediatamente a pontuação das equipes envolvidas.
+6. **Imprimir tabela de classificação (Opção 6):** Exibe a tabela completa do campeonato, formatada e alinhada dinamicamente na tela, listando o desempenho completo de todas as equipes.
 
 ## Principais Decisões de Implementação
 
-- **Uso de Vetores Estáticos:** Para facilitar o gerenciamento dos registros nesta primeira etapa, utilizamos vetores de tamanho fixo (10 times e 90 partidas) nas structs de BD. A escolha pelo vetor estático é baseada na simplicidade da implementação e na previsibilidade do consumo de memória.
+- **Listas Encadeadas e Alocação Dinâmica:** Para o gerenciamento de registros nesta etapa, abandonamos os vetores estáticos em favor de listas simplesmente encadeadas em `BDTimes` e `BDPartidas`. Isso permite a manipulação da memória sob demanda durante as operações de inserção e remoção de partidas.
 
-- **Carregamento Inicial em CSV:** A leitura dos arquivos `times.csv` e `partidas.csv` ocorre apenas uma vez na inicialização do programa. Os dados ficam na memória, evitando leituras repetidas no disco durante a execução do menu.
+- **TADs e Encapsulamento:** As estruturas (`structs`) reais de `Time` e `Partida` estão ocultas nos arquivos `.c`. Apenas os ponteiros são expostos nos cabeçalhos (`.h`), forçando a manipulação segura dos dados exclusivamente por meio de métodos "getters", "setters" e funções de soma/remoção de estatísticas.
 
-- **Busca por Prefixo e Insensível a Caso:** Utilização da função `strncasecmp` nas consultas. Isso permite achar um time digitando seja apenas o começo do nome, ou o nome completo, evitando erros se o usuário misturar letras maiúsculas e minúsculas.
+- **Algoritmo de Ordenação (Bubble Sort):** Para gerar a tabela de classificação, a lista encadeada de times é ordenada internamente. Para otimizar a operação e evitar o risco de perder referências (memory leaks), o algoritmo apenas troca os ponteiros dos dados (cargas úteis) entre os nós, em vez de reordenar os nós físicos da lista.
 
-- **Correção de Alinhamento (UTF-8):** Utilização da biblioteca `<wchar.h>` e da função `mbstowcs`. Como os acentos ocupam "bytes extras" e quebram a formatação padrão do `printf`, essa função nos permite contar a quantidade real de letras visíveis, mantendo a tabela perfeitamente alinhada.
+- **Rollback de Resultados:** Nas rotinas de atualização e exclusão de partidas, o sistema reverte as estatísticas antigas (`time_remove_gols`, `time_remove_vitoria`) antes de aplicar as novas, eliminando a necessidade de recalcular todo o campeonato do zero a cada alteração.
 
-- **Modularização:** Fornece uma separação clara para manter boas práticas e evitar que o `main` fique gigante.
+- **Correção de Alinhamento UTF-8:** Utilização da biblioteca `<wchar.h>` e da função `mbstowcs`. Como os acentos ocupam "bytes extras" e quebram a formatação padrão do `printf`, essa função nos permite contar a quantidade real de letras visíveis, mantendo a tabela perfeitamente alinhada.
 
 ## Como Executar o Programa
 
 ### Pré-requisitos
 
-Para rodar este programa, você precisará de um ambiente configurado com um compilador C.
+Para rodar este programa, você precisará de um ambiente configurado com um compilador C. 
 
 Como utilizamos um `Makefile` para automatizar o processo de compilação e execução, você também precisará da ferramenta de automação `Make`.
 
