@@ -56,8 +56,8 @@ Por fim, certifique-se de ter o `gcc` (GNU Compiler Collection) instalado:
 
 Clone este repositório via Git e acesse o diretório do projeto:
 ```bash
-git clone https://github.com/rafael-gonca/gerenciamento_de_partidas_P1.git
-cd gerenciamento_de_partidas_P1
+git clone https://github.com/rafael-gonca/gerenciamento_de_partidas_P2.git
+cd gerenciamento_de_partidas_P2
 ```
 *(Nota: Lembre-se de garantir que os arquivos `times.csv` e `partidas.csv` estejam no mesmo diretório que o código fonte antes de executar o programa).*
 
